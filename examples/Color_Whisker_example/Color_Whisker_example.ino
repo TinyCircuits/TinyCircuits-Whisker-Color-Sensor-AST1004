@@ -1,7 +1,7 @@
 /*************************************************************************
- * TSL2572 WhiskerBoard Tutorial:
- * Ambient Light Sensor example code that will print the lux value read
- * from the sensor to both the TinyScreen+, and the Serial Monitor
+ * Color Sensor TCS34725 Whisker Tutorial:
+ * This program will print the TCS34725 RGB, lux, and clearness values to 
+ * the Serial Monitor and a TinyScreen+
  * 
  * Hardware by: TinyCircuits
  * Code by: Laverena Wienclaw for TinyCircuits
@@ -42,7 +42,6 @@ void setup(void) {
 
   //The port is the number on the Adapter board where the sensor is attached
   selectPort(0);
-//selectPortBack(4);
 
   if (tcs.begin()) {
     SerialUSB.println("Found sensor");
@@ -50,12 +49,6 @@ void setup(void) {
     SerialUSB.println("No TCS34725 found ... check your connections");
     while (1);
   }
-}
-
-void selectPortBack(uint8_t port) {
-  Wire.beginTransmission(0x71);
-  Wire.write(0x04 + port - 1);
-  Wire.endTransmission();
 }
 
 void loop(void) {
@@ -121,5 +114,3 @@ void selectPort(int port) {
   Wire.write(0x04 + port);
   Wire.endTransmission();
 }
-
-
