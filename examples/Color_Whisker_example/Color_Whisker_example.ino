@@ -31,7 +31,7 @@ void setup(void) {
   SerialUSB.begin(9600);
   Wire.begin();
 
-  while(!SerialUSB);
+//  while(!SerialUSB);
 
   // Setup and style for TinyScreen+
   display.begin();
@@ -49,6 +49,9 @@ void setup(void) {
     SerialUSB.println("No TCS34725 found ... check your connections");
     while (1);
   }
+
+  // Turn Whisker LEDs on 
+  LEDon();
 }
 
 void loop(void) {
@@ -69,6 +72,15 @@ void loop(void) {
   delay(500);
 }
 
+// Turn Whisker LEDs on
+void LEDon() {
+  tcs.setInterrupt(true);
+}
+
+// Turn Whisker LEDs off
+void LEDoff() {
+  tcs.setInterrupt(false);
+}
 
 // Prints the color sensor values to the TinyScreen
 void printScreen(void){
