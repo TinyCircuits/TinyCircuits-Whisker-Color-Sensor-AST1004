@@ -1,8 +1,8 @@
-# TinyCircuits Whisker Color Sensor
-# AST1004 Rev 1
+# TinyCircuits Wireling Color Sensor
+# AST1004 Rev 2
 
 
-The design files are located under design_files/ for the TinyCircuits AST1004 Rev 1 PCB. This is a whisker board which measures the color and temperature of ambient or reflected light and also features a low power mode. Output resolution is 16-bit per each channel (Red, Green, and Blue). Includes bright white LEDs to aid sensing applications that can be toggled on or off.
+The design files are located under design_files/ for the TinyCircuits AST1004 Rev 2 PCB. This is a Wireling board which measures the color and temperature of ambient or reflected light and also features a low power mode. Output resolution is 16-bit per each channel (Red, Green, and Blue). Includes bright white LEDs to aid sensing applications that can be toggled on or off.
 
 Format is in Cadsoft Eagle format - Eagle version 6.2 was used for the original design.
 
