@@ -1,7 +1,11 @@
 /*************************************************************************
- * Color Sensor TCS34725 Whisker Tutorial:
+ * Color Sensor TCS34725 Wireling Tutorial:
  * This program will print the TCS34725 RGB, lux, and clearness values to 
  * the Serial Monitor and a TinyScreen+
+ * 
+ * Note: I²C Address for Wireling board is different than the Adafruit 
+ * component, this address change is reflected in the library that
+ * should be included with this sketch 
  * 
  * Hardware by: TinyCircuits
  * Code by: Laverena Wienclaw for TinyCircuits
@@ -17,6 +21,13 @@
 /* Initialise with default values (int time = 2.4ms, gain = 1x) */
 // Adafruit_TCS34725 tcs = Adafruit_TCS34725();
 
+// Make compatible with all TinyCircuits processors
+#if defined(ARDUINO_ARCH_AVR)
+  #define SerialMonitorInterface Serial
+#elif defined(ARDUINO_ARCH_SAMD)
+  #define SerialMonitorInterface SerialUSB
+#endif
+
 /* Initialise with specific int time and gain values */
 Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_700MS, TCS34725_GAIN_1X);
 
@@ -28,10 +39,10 @@ int background = TS_8b_Black;
 uint16_t r, g, b, c, colorTemp, lux;
 
 void setup(void) {
-  SerialUSB.begin(9600);
+  SerialMonitorInterface.begin(9600);
   Wire.begin();
 
-//  while(!SerialUSB);
+//  while(!SerialMonitorInterface);
 
   // Setup and style for TinyScreen+
   display.begin();
@@ -44,13 +55,13 @@ void setup(void) {
   selectPort(0);
 
   if (tcs.begin()) {
-    SerialUSB.println("Found sensor");
+    SerialMonitorInterface.println("Found sensor");
   } else {
-    SerialUSB.println("No TCS34725 found ... check your connections");
+    SerialMonitorInterface.println("No TCS34725 found ... check your connections");
     while (1);
   }
 
-  // Turn Whisker LEDs on 
+  // Turn Wireling LEDs on 
   LEDon();
 }
 
@@ -59,25 +70,25 @@ void loop(void) {
   colorTemp = tcs.calculateColorTemperature(r, g, b);
   lux = tcs.calculateLux(r, g, b);
 
-  SerialUSB.print("Color Temp: "); SerialUSB.print(colorTemp); SerialUSB.print(" K, ");
-  SerialUSB.print("Lux: "); SerialUSB.print(lux, DEC); SerialUSB.print(", ");
-  SerialUSB.print("R: "); SerialUSB.print(r, DEC); SerialUSB.print(", ");
-  SerialUSB.print("G: "); SerialUSB.print(g, DEC); SerialUSB.print(", ");
-  SerialUSB.print("B: "); SerialUSB.print(b); SerialUSB.print(", ");
-  SerialUSB.print("Clr: "); SerialUSB.print(c, DEC);
-  SerialUSB.println(" ");
+  SerialMonitorInterface.print("Color Temp: "); SerialMonitorInterface.print(colorTemp); SerialMonitorInterface.print(" K, ");
+  SerialMonitorInterface.print("Lux: "); SerialMonitorInterface.print(lux, DEC); SerialMonitorInterface.print(", ");
+  SerialMonitorInterface.print("R: "); SerialMonitorInterface.print(r, DEC); SerialMonitorInterface.print(", ");
+  SerialMonitorInterface.print("G: "); SerialMonitorInterface.print(g, DEC); SerialMonitorInterface.print(", ");
+  SerialMonitorInterface.print("B: "); SerialMonitorInterface.print(b); SerialMonitorInterface.print(", ");
+  SerialMonitorInterface.print("Clr: "); SerialMonitorInterface.print(c, DEC);
+  SerialMonitorInterface.println(" ");
 
   printScreen();
 
   delay(500);
 }
 
-// Turn Whisker LEDs on
+// Turn Wireling LEDs on
 void LEDon() {
   tcs.setInterrupt(true);
 }
 
-// Turn Whisker LEDs off
+// Turn Wireling LEDs off
 void LEDoff() {
   tcs.setInterrupt(false);
 }
@@ -119,7 +130,7 @@ void printScreen(void){
   display.print(c);
 }
 
-// **This function is necessary for all Whisker boards attached through an Adapter board**
+// **This function is necessary for all Wireling boards attached through an Adapter board**
 // Selects the correct address of the port being used in the Adapter board
 void selectPort(int port) {
   Wire.beginTransmission(0x70);
