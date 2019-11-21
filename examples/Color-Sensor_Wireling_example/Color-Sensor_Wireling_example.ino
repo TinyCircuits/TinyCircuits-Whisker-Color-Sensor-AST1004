@@ -62,7 +62,7 @@ void setup(void) {
   }
 
   // Turn Wireling LEDs on 
-  LEDon();
+//  LEDon();
 }
 
 void loop(void) {
