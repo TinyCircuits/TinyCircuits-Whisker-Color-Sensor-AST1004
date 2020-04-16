@@ -54,7 +54,6 @@ void setup(void) {
 }
 
 void loop(void) {
-  setup();
   tcs.getRawData(&r, &g, &b, &c);
   colorTemp = tcs.calculateColorTemperature(r, g, b);
   lux = tcs.calculateLux(r, g, b);
